@@ -34,9 +34,19 @@ class Program
             //Console.WriteLine(secretWord.ToUpper());
             //Console.WriteLine(stringGuess.ToUpper());
 
+            // Call Matches method without specifying any options.
+            foreach (Match match in Regex.Matches(secretWord, stringGuess, RegexOptions.None, TimeSpan.FromSeconds(1)))
+            {
+                Console.WriteLine("Found '{0}' at position {1}", match.Value, match.Index);
+            }
+
+            
+
             if (stringGuess.Contains(secretWord.ToUpper()))
             {
                 Console.WriteLine("Love u dood");
+                string printArg = "You win";    
+                Print(printArg);
             } else
             {
              //TBA   
@@ -61,14 +71,24 @@ class Program
     // Print (Print status, Print end result)
     public static void Print(string printArg)
     {
-        string text = "How about (a)nother game? Ahahahahahaha! :D\n(Input: Y / y or N/ n)";
         switch (printArg)
         {
             case string a when printArg.Contains("You lose"):
+        string text = "How about (a)nother game? Ahahahahahaha! :D\n(Input: Y / y or N/ n)";
                 Console.Clear();
-        Console.WriteLine("---------------------");
-        Console.WriteLine("- You lose, hahaha! -");
-        Console.WriteLine("---------------------");
+        Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~");
+        Console.WriteLine("~ You lose, hahaha! ~");
+        Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~");
+                Console.ReadKey();
+                Console.Clear();
+                Game(text);
+                break;
+            case string b when printArg.Contains("You win"):
+                text = "You did well, how about giving it another go? :D\n(Input: Y / y or N/ n)";
+                Console.Clear();
+                Console.WriteLine("~~~~~~~~~~~~~~~~~~~~");
+                Console.WriteLine("~ You win, hahaha! ~");
+                Console.WriteLine("~~~~~~~~~~~~~~~~~~~~");
                 Console.ReadKey();
                 Console.Clear();
                 Game(text);
@@ -131,18 +151,20 @@ class Program
         int secretWordLength = secretWord.Length;
 
         char[] chars = secretWord.ToCharArray();
-        //foreach (char c in chars)
-        //{
-        //    //sb.Append(c);
-        //    Console.WriteLine(c);
-        //}
+        foreach (char c in chars)
+        {
+            sb.Append(c);
+            Console.WriteLine(c);
+        }
 
         Guess(sb, secretWordLength, secretWord);
     }
     static void Main(string[] args)
     {
+        Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.WriteLine("Welcome to Hangman!\nMade by Siavash Gosheh\nSaravasha on GitHub");
         string text = "How about a game? (Input:Y/y or N/n)";
+        Console.ResetColor();
         Game(text);
     }
 }
