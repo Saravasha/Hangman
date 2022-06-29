@@ -9,30 +9,59 @@ namespace Hangman
 class Program
 {
     // Guess, commenting just for highlighting purposes, (Player guess)
-    public static void Guess(StringBuilder sb, int secretWordLength, string secretWord) {
+    public static void Guess(char[] charify, int secretWordLength, string secretWord)
+    {
         int guessNum = 10;
+        StringBuilder sb = new StringBuilder("", 10);
+
         Console.WriteLine("Guess the word, carefully...");
-        do {
-            
-            string? stringGuess = Convert.ToString(Console.ReadLine().ToUpper());
-            
+        do
+        {
+
+
+            string? stringGuess = Convert.ToString(Console.ReadLine());
+            if (guessNum <= stringGuess.Length )
+            {
+                Console.WriteLine("Cheater!");
+                    Print("You lose");
+            }
+
             int guessLength = stringGuess.Length;
             guessNum -= guessLength;
             Console.WriteLine($"You have {guessNum} number of guesses remaining, {guessLength} is the number of characters just used for this attempt");
-            Console.WriteLine(sb);
-
+ 
+            
             // UnderscoreBuilder of SecretWordLength
             var secretWordToUnderScores = Regex.Replace(secretWord, @"[\w:]", "_ ");
-            //var hiddenChar = "";
-            //for (int i = 0; i < secretWordLength; i++)
-            //{
-            //    hiddenChar += "_" + ",";
-            //}
             Console.WriteLine(secretWordToUnderScores);
 
+            // Collector of wrong chars
 
-            //Console.WriteLine(secretWord.ToUpper());
-            //Console.WriteLine(stringGuess.ToUpper());
+
+
+                //var zigi = wrongChars.Append(charify).ToString();
+
+            //if (zigi.Contains(secretWord)) { }
+
+            StringBuilder wrongChars = new StringBuilder();
+            foreach (char w in charify)
+            {
+                Console.WriteLine($"char in charify = {w}");
+            }
+
+            foreach (char wrongChar in stringGuess)
+            {
+                sb = sb.Append(wrongChar);
+            }
+            var zigig = sb.ToString();
+            //Console.WriteLine($"chars = {zigi}");
+            Console.WriteLine($"zigig = {zigig}");
+
+
+            //var input = Console.ReadKey().ToString().Length;
+
+
+            //Console.WriteLine(input);
 
             // Call Matches method without specifying any options.
             foreach (Match match in Regex.Matches(secretWord, stringGuess, RegexOptions.None, TimeSpan.FromSeconds(1)))
@@ -40,16 +69,14 @@ class Program
                 Console.WriteLine("Found '{0}' at position {1}", match.Value, match.Index);
             }
 
-            
-
-            if (stringGuess.Contains(secretWord.ToUpper()))
+            if (stringGuess.Contains(secretWord, StringComparison.OrdinalIgnoreCase) || zigig.Contains(secretWord, StringComparison.OrdinalIgnoreCase))
             {
                 Console.WriteLine("Love u dood");
-                string printArg = "You win";    
-                Print(printArg);
-            } else
+                Print("You win");
+            }
+            else
             {
-             //TBA   
+                //TBA   
             }
 
             //sb.ToString().IndexOf(Convert.ToString(guessLength));
@@ -63,10 +90,10 @@ class Program
         } while (guessNum > 0);
         if (guessNum <= 0)
         {
-            string printArg = "You lose";
-            Print(printArg);
+            Print("You lose");
         }
     }
+
 
     // Print (Print status, Print end result)
     public static void Print(string printArg)
@@ -74,21 +101,35 @@ class Program
         switch (printArg)
         {
             case string a when printArg.Contains("You lose"):
-        string text = "How about (a)nother game? Ahahahahahaha! :D\n(Input: Y / y or N/ n)";
+                string text = "How about a(n)other game? Ahahahahahaha! :D\n(y or n)";
                 Console.Clear();
-        Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~");
-        Console.WriteLine("~ You lose, hahaha! ~");
-        Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~");
+                for (int i = 0; i < 3; i++)
+                {
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine(" ~~~~~~~~~~~~~~~~~~~~~");
+                    Console.WriteLine(" ~ You lose, hahaha! ~");
+                    Console.WriteLine(" ~~~~~~~~~~~~~~~~~~~~~");
+                    Thread.Sleep(1000);
+                    Console.ResetColor();
+                }
                 Console.ReadKey();
                 Console.Clear();
                 Game(text);
                 break;
             case string b when printArg.Contains("You win"):
-                text = "You did well, how about giving it another go? :D\n(Input: Y / y or N/ n)";
+                text = "You did well, how about giving it another go? :D\n(y or n)";
                 Console.Clear();
-                Console.WriteLine("~~~~~~~~~~~~~~~~~~~~");
-                Console.WriteLine("~ You win, hahaha! ~");
-                Console.WriteLine("~~~~~~~~~~~~~~~~~~~~");
+                for (int i = 0; i < 3; i++)
+                {
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine(" ~~~~~~~~~~~~~~~~~~~~");
+                    Console.WriteLine(" ~ You win, hahaha! ~");
+                    Console.WriteLine(" ~~~~~~~~~~~~~~~~~~~~");
+                    Thread.Sleep(1000);
+                    Console.ResetColor();
+                }
                 Console.ReadKey();
                 Console.Clear();
                 Game(text);
@@ -106,31 +147,28 @@ class Program
     // Game, Main Menu for Game.
     static void Game(string text)
     {
-        
-        Console.WriteLine(text);
-        //StringBuilder sb = new StringBuilder("ABC", 50);
-        //sb.Append("WWWWWWW");
-        //Console.WriteLine(sb);
-        //Console.WriteLine(sb.Length);
-        string? wannaPlay = Console.ReadLine();
 
-        switch (wannaPlay)
+        Console.WriteLine(text);
+
+
+        char key = Console.ReadKey().KeyChar;
+        switch (key)
         {
-            case string zigi when wannaPlay.Contains("ny"):
-            case string plz when wannaPlay.Contains("yn"):
-                Console.WriteLine("Nice try - I'll ask again! :D");
-                Thread.Sleep(2000);
-                Console.Clear();
-                Game(text);
-                break;
-            case string gerk when wannaPlay.Contains("y"):
+            case 'y':
+            case 'Y':
                 GetSecretWord();
                 break;
-            case string bork when wannaPlay.Contains("n"):
-                Console.WriteLine("It's treason, then.");
+            case 'n':
+            case 'N':
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("\nIt's treason, then.");
+                Console.ResetColor();
                 Environment.Exit(0);
                 break;
-            default: Game(text);
+            default:
+                Console.WriteLine("\nNice try - I'll ask again! :D");
+                Console.Clear();
+                Game(text);
                 break;
         }
     }
@@ -140,30 +178,30 @@ class Program
     {
         Console.WriteLine("Randomizing secret word...");
         Random rando = new Random();
-        var secretWordList = new string[10] { "Potato", "Gerpgork", "Tomato", "Cockatoo", "Bird", "Macaw", "Chocolate", "Book", "Cake", "Glasses"};
+        var secretWordList = new string[10] { "Potato", "Gerpgork", "Tomato", "Cockatoo", "Bird", "Macaw", "Chocolate", "Book", "Cake", "Glasses", };
         int index = rando.Next(secretWordList.Count());
-        string randomString = secretWordList[index];
-        Console.WriteLine(($"The secret word is {secretWordList[index].ToUpper()}"));
+        //string randomString = secretWordList[index];
+        Console.WriteLine(($"The secret word is {secretWordList[index]}"));
 
-        string secretWord = (string) secretWordList[index];
+        string secretWord = (string)secretWordList[index];
 
-        StringBuilder sb = new StringBuilder(secretWord, 10);
+        
         int secretWordLength = secretWord.Length;
 
-        char[] chars = secretWord.ToCharArray();
-        foreach (char c in chars)
-        {
-            sb.Append(c);
-            Console.WriteLine(c);
-        }
+        char[] charify = secretWord.ToCharArray();
+        //foreach (char c in chars)
+        //{
+        //    sb.Append(c);
+        // Console.WriteLine(c);
+        // }
 
-        Guess(sb, secretWordLength, secretWord);
+        Guess(charify, secretWordLength, secretWord);
     }
     static void Main(string[] args)
     {
         Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.WriteLine("Welcome to Hangman!\nMade by Siavash Gosheh\nSaravasha on GitHub");
-        string text = "How about a game? (Input:Y/y or N/n)";
+        string text = "How about a game? (y or n)";
         Console.ResetColor();
         Game(text);
     }
