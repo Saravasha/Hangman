@@ -13,49 +13,47 @@ class Program
     {
         int guessNum = 10;
         StringBuilder sb = new StringBuilder("", 10);
+        StringBuilder wrongChars = new StringBuilder();
 
         Console.WriteLine("Guess the word, carefully...");
         do
         {
 
 
-            string? stringGuess = Convert.ToString(Console.ReadLine());
-            if (guessNum <= stringGuess.Length )
+            string? stringGuess = Convert.ToString(Console.ReadLine()).ToUpper();
+            StringBuilder guess = new StringBuilder(stringGuess);
+            if (guessNum <= stringGuess.Length)
             {
-                Console.WriteLine("Cheater!");
-                    Print("You lose");
+                Print("You lose");
             }
 
             int guessLength = stringGuess.Length;
             guessNum -= guessLength;
             Console.WriteLine($"You have {guessNum} number of guesses remaining, {guessLength} is the number of characters just used for this attempt");
- 
-            
+
+
             // UnderscoreBuilder of SecretWordLength
-            var secretWordToUnderScores = Regex.Replace(secretWord, @"[\w:]", "_ ");
+            var secretWordToUnderScores = Regex.Replace(secretWord, @"[\w:]", "_ ").ToString();
             Console.WriteLine(secretWordToUnderScores);
 
             // Collector of wrong chars
 
 
 
-                //var zigi = wrongChars.Append(charify).ToString();
 
-            //if (zigi.Contains(secretWord)) { }
-
-            StringBuilder wrongChars = new StringBuilder();
             foreach (char w in charify)
             {
+                if (stringGuess.Contains(w))
+                {
+                    Console.WriteLine("poopy butt");
+                    sb = sb.Append(w);
+                }
+
                 Console.WriteLine($"char in charify = {w}");
             }
+            var sbToString = sb.ToString();
+            Console.WriteLine($"sb = {sb}");
 
-            foreach (char wrongChar in stringGuess)
-            {
-                sb = sb.Append(wrongChar);
-            }
-            var zigig = sb.ToString();
-            //Console.WriteLine($"chars = {zigi}");
-            Console.WriteLine($"zigig = {zigig}");
 
 
             //var input = Console.ReadKey().ToString().Length;
@@ -64,12 +62,25 @@ class Program
             //Console.WriteLine(input);
 
             // Call Matches method without specifying any options.
+
+            // Char array index finder
+
             foreach (Match match in Regex.Matches(secretWord, stringGuess, RegexOptions.None, TimeSpan.FromSeconds(1)))
             {
                 Console.WriteLine("Found '{0}' at position {1}", match.Value, match.Index);
+                //char[] charsy = secretWordToUnderScores.ToCharArray();
+                //    var zigi = match.Value;
+                //charsy[match.Index] = zigi;
+                //charsy = new string(charsy);
+                //secretWordToUnderScores.Replace(match.Groups[1].Value, match.Groups[2].Value);
+                //int index = match.Index;
+
             }
 
-            if (stringGuess.Contains(secretWord, StringComparison.OrdinalIgnoreCase) || zigig.Contains(secretWord, StringComparison.OrdinalIgnoreCase))
+
+            Console.WriteLine(secretWordToUnderScores);
+
+            if (stringGuess.Contains(secretWord, StringComparison.OrdinalIgnoreCase) || sbToString.Contains(secretWord, StringComparison.OrdinalIgnoreCase))
             {
                 Console.WriteLine("Love u dood");
                 Print("You win");
@@ -93,6 +104,7 @@ class Program
             Print("You lose");
         }
     }
+    
 
 
     // Print (Print status, Print end result)
@@ -183,7 +195,7 @@ class Program
         //string randomString = secretWordList[index];
         Console.WriteLine(($"The secret word is {secretWordList[index]}"));
 
-        string secretWord = (string)secretWordList[index];
+        string secretWord = secretWordList[index].ToString().ToUpper();
 
         
         int secretWordLength = secretWord.Length;
