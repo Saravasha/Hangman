@@ -13,7 +13,8 @@ class Program
     {
         int guessNum = 10;
         StringBuilder sb = new StringBuilder("", 10);
-        StringBuilder wrongChars = new StringBuilder();
+        StringBuilder wrongInput = new StringBuilder("");
+        StringBuilder correctInput = new StringBuilder(secretWord);
 
         Console.WriteLine("Guess the word, carefully...");
         do
@@ -38,36 +39,47 @@ class Program
 
             // Collector of wrong chars
 
-
-
-
-            foreach (char w in charify)
+            foreach (char letter in charify)
             {
-                if (stringGuess.Contains(w))
+
+                if (stringGuess.Contains(letter) || stringGuess.Equals(charify))
                 {
-                    Console.WriteLine("poopy butt");
-                    sb = sb.Append(w);
+                    var z = new string(charify);
+                    Console.WriteLine("z =", z);
+                    Console.WriteLine("Correct Guess");
+                    sb = sb.Append(letter);
+                    foreach (Match match in Regex.Matches(secretWord, stringGuess, RegexOptions.None, TimeSpan.FromSeconds(1)))
+                    {
+                        Console.WriteLine("Found '{0}' at position {1}", match.Value, match.Index);
+                    }
                 }
+                else
+                {
+                    Console.WriteLine($"char in charify = {sb}");
+                    wrongInput = wrongInput.Append(stringGuess);
+                }
+                Console.WriteLine($"wrongInput = {wrongInput}");
 
-                Console.WriteLine($"char in charify = {w}");
-            }
-            var sbToString = sb.ToString();
-            Console.WriteLine($"sb = {sb}");
+                var sbToString = sb.ToString();
+
+                Console.WriteLine(charify);
+
+                Console.WriteLine($"sb = {sb}");
+                Console.WriteLine($"sbToString = {sbToString}");
+
+                Console.WriteLine($"correctInput = {correctInput}");
 
 
+                //var input = Console.ReadKey().ToString().Length;
 
-            //var input = Console.ReadKey().ToString().Length;
+
+                //Console.WriteLine(input);
+
+                // Call Matches method without specifying any options.
+
+                // Char array index finder
 
 
-            //Console.WriteLine(input);
-
-            // Call Matches method without specifying any options.
-
-            // Char array index finder
-
-            foreach (Match match in Regex.Matches(secretWord, stringGuess, RegexOptions.None, TimeSpan.FromSeconds(1)))
-            {
-                Console.WriteLine("Found '{0}' at position {1}", match.Value, match.Index);
                 //char[] charsy = secretWordToUnderScores.ToCharArray();
                 //    var zigi = match.Value;
                 //charsy[match.Index] = zigi;
@@ -75,29 +87,33 @@ class Program
                 //secretWordToUnderScores.Replace(match.Groups[1].Value, match.Groups[2].Value);
                 //int index = match.Index;
 
+
+
+
+                Console.WriteLine(secretWordToUnderScores);
+
+                if (stringGuess.Contains(secretWord, StringComparison.OrdinalIgnoreCase) ||
+                    sbToString.Contains(secretWord, StringComparison.OrdinalIgnoreCase) ||
+                    sbToString.Equals(charify) ||
+                    stringGuess.Equals(charify))
+                {
+                    Console.WriteLine("Love u dood");
+                    Print("You win");
+                }
+                else
+                {
+                    //TBA   
+                }
+
+                //sb.ToString().IndexOf(Convert.ToString(guessLength));
+                //Console.WriteLine(sb.ToString());
+
+                // Pseudo Code: If stringGuess Contains()
+
+
+                // Behöver en enkapsulering av rätt gissningar.
+
             }
-
-
-            Console.WriteLine(secretWordToUnderScores);
-
-            if (stringGuess.Contains(secretWord, StringComparison.OrdinalIgnoreCase) || sbToString.Contains(secretWord, StringComparison.OrdinalIgnoreCase))
-            {
-                Console.WriteLine("Love u dood");
-                Print("You win");
-            }
-            else
-            {
-                //TBA   
-            }
-
-            //sb.ToString().IndexOf(Convert.ToString(guessLength));
-            //Console.WriteLine(sb.ToString());
-
-            // Pseudo Code: If stringGuess Contains()
-
-
-            // Behöver en enkapsulering av rätt gissningar.
-
         } while (guessNum > 0);
         if (guessNum <= 0)
         {
