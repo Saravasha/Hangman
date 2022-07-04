@@ -9,19 +9,17 @@ namespace Hangman
 class Program
 {
     // Guess, commenting just for highlighting purposes, (Player guess)
-    public static void Guess(char[] charify, string secretWord)
+    public static void Guess(char[] charify, int secretWordLength, string secretWord)
     {
         int guessNum = 10;
         StringBuilder sb = new StringBuilder("", 10);
+        StringBuilder wrongInput = new StringBuilder("");
+        StringBuilder correctInput = new StringBuilder(secretWord);
 
         Console.WriteLine("Guess the word, carefully...");
-        // UnderscoreBuilder of secretWord
-        for (int i = 0; i < secretWord.Length; i++)
+        do
         {
-            charify[i] = '_';
-        }
-        while (guessNum > 0)
-        {
+
 
             string? stringGuess = Convert.ToString(Console.ReadLine()).ToUpper();
             StringBuilder guess = new StringBuilder(stringGuess);
@@ -30,42 +28,96 @@ class Program
                 Print("You lose");
             }
 
-
             int guessLength = stringGuess.Length;
             guessNum -= guessLength;
             Console.WriteLine($"You have {guessNum} number of guesses remaining, {guessLength} is the number of characters just used for this attempt");
 
 
+            // UnderscoreBuilder of SecretWordLength
+            var secretWordToUnderScores = Regex.Replace(secretWord, @"[\w:]", "_ ").ToString();
+            Console.WriteLine(secretWordToUnderScores);
+
             // Collector of wrong chars
 
-
-            for (int j = 0; j < secretWord.Length; j++)
+            foreach (char letter in charify)
             {
-                if (stringGuess == secretWord[j].ToString())
+
+                if (stringGuess.Contains(letter) || stringGuess.Equals(charify))
                 {
-
-                    charify[j] = Convert.ToChar(stringGuess);
+                    var z = new string(charify);
+                    Console.WriteLine("z =", z);
+                    Console.WriteLine("Correct Guess");
+                    sb = sb.Append(letter);
+                    foreach (Match match in Regex.Matches(secretWord, stringGuess, RegexOptions.None, TimeSpan.FromSeconds(1)))
+                    {
+                        Console.WriteLine("Found '{0}' at position {1}", match.Value, match.Index);
+                    }
                 }
-            }
+                else
+                {
+                    Console.WriteLine($"char in charify = {sb}");
+                    wrongInput = wrongInput.Append(stringGuess);
+                }
+                Console.WriteLine($"wrongInput = {wrongInput}");
 
-            var sbToString = sb.ToString();
-            if (stringGuess != secretWord || stringGuess.Contains(charify.ToString()))
-            {
-                Console.WriteLine("zigi");
-            }
-            string charified = new string(charify);
-            Console.WriteLine(charified);
+                var sbToString = sb.ToString();
 
-            if (stringGuess.Contains(secretWord, StringComparison.OrdinalIgnoreCase) || sbToString.Contains(secretWord, StringComparison.OrdinalIgnoreCase) || charified.Equals(secretWord) || stringGuess.Equals(secretWord))
-            {
-                Print("You win");
-            }
-            else
-            {
-                //TBA   
-            }
+                Console.WriteLine(charify);
+
+                Console.WriteLine($"sb = {sb}");
+                Console.WriteLine($"sbToString = {sbToString}");
+
+                Console.WriteLine($"correctInput = {correctInput}");
 
 
+                //var input = Console.ReadKey().ToString().Length;
+
+
+                //Console.WriteLine(input);
+
+                // Call Matches method without specifying any options.
+
+                // Char array index finder
+
+
+                //char[] charsy = secretWordToUnderScores.ToCharArray();
+                //    var zigi = match.Value;
+                //charsy[match.Index] = zigi;
+                //charsy = new string(charsy);
+                //secretWordToUnderScores.Replace(match.Groups[1].Value, match.Groups[2].Value);
+                //int index = match.Index;
+
+
+
+
+                Console.WriteLine(secretWordToUnderScores);
+
+                if (stringGuess.Contains(secretWord, StringComparison.OrdinalIgnoreCase) ||
+                    sbToString.Contains(secretWord, StringComparison.OrdinalIgnoreCase) ||
+                    sbToString.Equals(charify) ||
+                    stringGuess.Equals(charify))
+                {
+                    Console.WriteLine("Love u dood");
+                    Print("You win");
+                }
+                else
+                {
+                    //TBA   
+                }
+
+                //sb.ToString().IndexOf(Convert.ToString(guessLength));
+                //Console.WriteLine(sb.ToString());
+
+                // Pseudo Code: If stringGuess Contains()
+
+
+                // Behöver en enkapsulering av rätt gissningar.
+
+            }
+        } while (guessNum > 0);
+        if (guessNum <= 0)
+        {
+            Print("You lose");
         }
     }
     
@@ -114,6 +166,12 @@ class Program
         //Printa returns från spelet efter gissning. 
     }
 
+    // Validator (Check Guess)
+    static void Validator()
+    {
+        //kollar om giltig inmatning och catchar felaktig input, ber användaren att försöka igen.
+    }
+
     // Game, Main Menu for Game.
     static void Game(string text)
     {
@@ -151,15 +209,21 @@ class Program
         var secretWordList = new string[10] { "Potato", "Gerpgork", "Tomato", "Cockatoo", "Bird", "Macaw", "Chocolate", "Book", "Cake", "Glasses", };
         int index = rando.Next(secretWordList.Count());
         //string randomString = secretWordList[index];
-        //Console.WriteLine(($"The secret word is {secretWordList[index]}"));
+        Console.WriteLine(($"The secret word is {secretWordList[index]}"));
 
         string secretWord = secretWordList[index].ToString().ToUpper();
 
-
-        char[] charify = new char[secretWord.Length];
         
+        int secretWordLength = secretWord.Length;
 
-        Guess(charify, secretWord);
+        char[] charify = secretWord.ToCharArray();
+        //foreach (char c in chars)
+        //{
+        //    sb.Append(c);
+        // Console.WriteLine(c);
+        // }
+
+        Guess(charify, secretWordLength, secretWord);
     }
     static void Main(string[] args)
     {
