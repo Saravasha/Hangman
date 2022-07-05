@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Qpvp6iR+fwNN6pDO26y+U7W+sKmXCTwTwT1mWfnVDbpEmlMb6890ALwX9lSyvuPl6oH2oD4LtdpStJzfjMOJAw==",
+  "dgSpecHash": "0HCOzxGcypNfDHkhZrEAzHh3jRXaHTbYhlwiqvGeX1i82JJX1lQk6C3Qsd1ieNo1FeieFugufoHv96uPG6XNqg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\siava\\source\\repos\\Hangman\\Hangman.csproj",
+  "projectFilePath": "C:\\Users\\siava\\Source\\Repos\\Hangman\\Hangman\\Hangman.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

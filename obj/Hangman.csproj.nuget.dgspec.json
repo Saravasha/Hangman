@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\siava\\source\\repos\\Hangman\\Hangman.csproj": {}
+    "C:\\Users\\siava\\Source\\Repos\\Hangman\\Hangman\\Hangman.csproj": {}
   },
   "projects": {
-    "C:\\Users\\siava\\source\\repos\\Hangman\\Hangman.csproj": {
+    "C:\\Users\\siava\\Source\\Repos\\Hangman\\Hangman\\Hangman.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\siava\\source\\repos\\Hangman\\Hangman.csproj",
+        "projectUniqueName": "C:\\Users\\siava\\Source\\Repos\\Hangman\\Hangman\\Hangman.csproj",
         "projectName": "Hangman",
-        "projectPath": "C:\\Users\\siava\\source\\repos\\Hangman\\Hangman.csproj",
+        "projectPath": "C:\\Users\\siava\\Source\\Repos\\Hangman\\Hangman\\Hangman.csproj",
         "packagesPath": "C:\\Users\\siava\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\siava\\source\\repos\\Hangman\\obj\\",
+        "outputPath": "C:\\Users\\siava\\Source\\Repos\\Hangman\\Hangman\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\siava\\AppData\\Roaming\\NuGet\\NuGet.Config",
