@@ -9,73 +9,13 @@ namespace Hangman
 
     //Jag körde ditt program och är inte helt nöjd med följande punkter:
 
-    //Du tvingar användaren att välja en bokstav hela tiden.Sådan är inte tanken. Användaren ska kunna gissa på hela ordet för varje nytt försök.
+    // DONE Du tvingar användaren att välja en bokstav hela tiden.Sådan är inte tanken. Användaren ska kunna gissa på hela ordet för varje nytt försök.
 
     //Programmet ska visa de felaktiga tecknen efter varje gissning.
 
-    //Det ska även visas vilket ord som ska vara den korrekta, när man misslyckas.
+    // DONE -- Det ska även visas vilket ord som ska vara den korrekta, när man misslyckas.
 
     //Fixa ovanstående punkter för godkänt.
-
-
-
-    ////var wrongInputToString = wrongInput.ToString();
-    //if (stringGuess != secretWord || stringGuess.Contains(charify.ToString()))
-    //{
-    //    //Console.WriteLine("zigi");
-    //}
-    //string charified2 = new string(charify);
-    //Console.WriteLine("charified2 = ", charified2);
-    // Collector of wrong chars
-
-    //foreach (char letter in charify)
-    //    {
-
-    //        if (stringGuess.Contains(letter) || stringGuess.Equals(charify))
-    //        {
-    //            var z = new string(charify);
-    //            Console.WriteLine("z =", z);
-    //            Console.WriteLine("Correct Guess");
-    //            wrongInput = wrongInput.Append(letter);
-    //Regex.IsMatch(input, @"^[a-zA-Z]+$");
-    //            foreach (Match match in Regex.Matches(secretWord, stringGuess, RegexOptions.None, TimeSpan.FromSeconds(1)))
-    //            {
-    //                Console.WriteLine("Found '{0}' at position {1}", match.Value, match.Index);
-    //            }
-    //        }
-    //        else
-    //        {
-    //            Console.WriteLine($"char in charify = {wrongInput}");
-    //            wrongInput = wrongInput.Append(stringGuess);
-    //        }
-    //Console.WriteLine($"wrongInput = {wrongInput}");
-
-
-    //Console.WriteLine(charify);
-
-    //Console.WriteLine($"wrongInputToString = {wrongInputToString}");
-
-    //Console.WriteLine($"correctInput = {correctInput}");
-
-
-    //var input = Console.ReadKey().ToString().Length;
-
-
-    //Console.WriteLine(input);
-
-    // Call Matches method without specifying any options.
-
-    // Char array index finder
-
-
-    //char[] charsy = secretWordToUnderScores.ToCharArray();
-    //    var zigi = match.Value;
-    //charsy[match.Index] = zigi;
-    //charsy = new string(charsy);
-    //secretWordToUnderScores.Replace(match.Groups[1].Value, match.Groups[2].Value);
-    //int index = match.Index;
-
-
 
 }
 
@@ -87,21 +27,20 @@ class Program
     public static void Guess(char[] charify, string secretWord, int secretLength)
     {
         int guessNum = 10;
-        StringBuilder wrongInput = new StringBuilder("");
+        StringBuilder wrongGuess = new StringBuilder();
 
-        StringBuilder correctInput = new StringBuilder(secretWord);
+        StringBuilder correctGuess = new StringBuilder(secretLength);
 
         Console.WriteLine("Guess the word, carefully...");
         bool keepGoing = true;
 
         do
         {
-            string stringGuess = Convert.ToString(Console.ReadLine()).ToUpper();
+            string stringGuess = Convert.ToString(Console.ReadLine().ToUpper());
             bool textInput = Regex.IsMatch(stringGuess, @"^[a-zA-Z]+$");
             bool empty = string.IsNullOrEmpty(stringGuess);
             int guessLength = stringGuess.Length;
 
-            StringBuilder guess = new StringBuilder(stringGuess);
 
             switch (stringGuess)
             {
@@ -115,48 +54,72 @@ class Program
                     break;
                 default:
                     keepGoing = true;
-                    // Guess Numbers reduced by 1 for each attempt.
-
-                    
+                    guessNum--;
 
                     Console.WriteLine($"You have {guessNum} number of guesses remaining, {guessLength} is the number of characters just used for this attempt");
                     Console.WriteLine(stringGuess);
 
+                    //my precious
 
-                    // Revealer of secretWord if guess is correct // if guess is wrong.
 
-                    for (int i = 0; i < secretLength; i++)
+                        
+                    var wrongify = new char[secretLength];
+
+                    foreach (char c in stringGuess)
                     {
-                        if (stringGuess == secretWord[i].ToString())
+                        //stringGuess 
+                        stringGuess = c.ToString();
+                        for (int i = 0; i < secretLength; i++)
                         {
-                            charify[i] = Convert.ToChar(stringGuess);
-                        }
-                        else if (stringGuess.Contains(charify[i]))
-                        {
-                            Console.WriteLine(stringGuess.Contains(charify.ToString()));
+                            if (stringGuess == secretWord[i].ToString())
+                            {
+                                Console.WriteLine($"{c} is correct!");
+                                charify[i] = Convert.ToChar(stringGuess);
+                            }
+                            else 
+                            //if (stringGuess != secretWord[i].ToString())
+                            {
+                                wrongify[i] = Convert.ToChar(stringGuess);
+                                Console.WriteLine($"{c} is not correct!");
+                            }
                         }
                     }
-                    string charified = new string(charify);
-                    Console.WriteLine(charified);
+                    //foreach (char c in stringGuess)
+                    //{
+                    //    //stringGuess 
+                    //    stringGuess = c.ToString();
+                    //    for (int i = 0; i < secretLength; i++)
+                    //    {
+                    //    }
+                    //}
 
-                    if (stringGuess != secretWord)
+
+                    if (wrongify.ToString().Contains(stringGuess))
                     {
-                        wrongInput = wrongInput.Append(stringGuess);
-                        Console.WriteLine("poopy butt");
-                        Console.WriteLine($"wrongInput = {wrongInput}");
+                        wrongGuess = wrongGuess.Append(wrongify);
+                    }
+                    string revealChars = new string(charify);
+                    Console.WriteLine(revealChars);
+
+
+                    Console.WriteLine($"Wrong Guesses: {wrongGuess}");
+                    if (stringGuess.Contains(wrongGuess.ToString()))
+                    {
+                        
+                        Console.WriteLine($"Wrong Guesses before if statement: {wrongGuess}");
                     }
 
+                    
                     if (
-                    //stringGuess.Contains(secretWord, StringComparison.OrdinalIgnoreCase) ||
-                    stringGuess.Equals(secretWord, StringComparison.OrdinalIgnoreCase) ||
-                    charified.Equals(secretWord, StringComparison.OrdinalIgnoreCase)
-                    //||
-                    //wrongInput.Equals(charify)
-                    //||
-                    //stringGuess.Equals(charify)
+                    stringGuess.Contains(secretWord, StringComparison.OrdinalIgnoreCase)
+                    ||
+                    stringGuess.Equals(secretWord, StringComparison.OrdinalIgnoreCase)
+                    ||
+                    stringGuess.Equals(charify)
+                    ||
+                    revealChars.Equals(secretWord, StringComparison.OrdinalIgnoreCase)
                     )
                     {
-
                         Console.WriteLine("Love u dood");
                         Print(secretWord + " is correct!\nYou win! :) :) :)");
                         keepGoing = false;
@@ -166,12 +129,9 @@ class Program
                         Print("You ran out of guesses\n" + secretWord + " was the sought word\nYou lose! :( :( :(");
                         keepGoing = false;
                     }
-                    guessNum--;
-                    break;
-
+            break;
             } 
-        }
-            while (keepGoing);
+        } while (keepGoing);
     }
 
 
@@ -277,6 +237,7 @@ class Program
         {
             charify[i] = '_';
         }
+        Console.WriteLine(charify);
         //Console.WriteLine(charify);
         Console.WriteLine($"The secret word is ... {secretWord}");
         Guess(charify, secretWord, secretLength);
