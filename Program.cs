@@ -48,20 +48,20 @@ class Program
 
         do
         {
+            Console.Write("Enter your guess:");
             stringGuess = Convert.ToString(Console.ReadLine().ToUpper());
-            Console.WriteLine("Guess the word, carefully...");
             bool textInput = Regex.IsMatch(stringGuess, @"^[a-zA-Z]+$");
             bool empty = string.IsNullOrEmpty(stringGuess);
             guessLength = stringGuess.Length;
-
+             
             switch (stringGuess)
             {
                 case string a when (empty == true):
-                    Console.WriteLine("Empty input");
+                    Console.WriteLine("Empty input, try again :)");
                     keepGoing = true;
                     break;
                 case string b when (textInput == false):
-                    Console.WriteLine("Unacceptable input, try again with a Alphabetical character! :D");
+                    Console.WriteLine("Unacceptable input, try again with a alphabetical character! :D");
                     keepGoing = true;
                     break;
                 default:
@@ -257,7 +257,7 @@ class Program
         }
         Console.WriteLine(charify);
         //Console.WriteLine(charify);
-        Console.WriteLine($"The secret word is ... {secretWord}");
+        //Console.WriteLine($"The secret word is ... {secretWord}");
         Guess(charify, secretWord, secretLength);
     }
 
